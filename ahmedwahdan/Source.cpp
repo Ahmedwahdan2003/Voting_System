@@ -21,6 +21,7 @@ int main()
 	cout << "\t\t\t\t\t\tHELLO AMIGOS";
 	 cout << "abdellatif";
 	 cout << "hello";
+	 cout << "yousdserf";
 //the calling of the functions
 }
 
