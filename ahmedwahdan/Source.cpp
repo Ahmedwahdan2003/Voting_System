@@ -19,6 +19,7 @@ int main()
 		cout << arr[i] << "    " << arr2[i]<<endl;
 	}
 	cout << "\t\t\t\t\t\tHELLO AMIGOS";
+	cout << "abdellatif";
 //the calling of the functions
 }
 
