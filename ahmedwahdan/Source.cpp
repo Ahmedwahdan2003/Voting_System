@@ -12,16 +12,6 @@ using namespace std;
 
 int main()
 {
-	cout << "hello";
-	int arr[] = {2,3,4,5},arr2[]={9,8,7,6};
-	swap(arr, arr2);
-	for (int i = 0; i <= 3; i++) {
-		cout << arr[i] << "    " << arr2[i]<<endl;
-	}
-	cout << "\t\t\t\t\t\tHELLO AMIGOS";
-	 cout << "abdellatif";
-	 cout << "hello";
-	 cout << "yousdserf";
 //the calling of the functions
 }
 
