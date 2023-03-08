@@ -12,6 +12,7 @@ using namespace std;
 
 int main()
 {
+	cout << "rawan";
 //the calling of the functions
 }
 
