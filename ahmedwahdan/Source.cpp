@@ -14,6 +14,7 @@ int main()
 
 
 {
+	c
 	cout << "rawan";
 	cout << "basmala";
 	cout << "rahaf";
