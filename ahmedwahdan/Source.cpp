@@ -15,7 +15,8 @@ int main()
 
 {
 	cout << "rawan";
-
+	cout << "basmala";
+	cout << "rahaf";
 //the calling of the functions
 	cout <<"youssef haitham";
 }
