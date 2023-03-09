@@ -42,11 +42,15 @@ void readvoters();
 void readadmins();
 void readelections();
 void readfromfiles();
+bool loginvoter();
+bool loginadmin();
+void registervoter();
+void registeradmin();
 int main()
 {
 	readfromfiles();
 	cout << election[0].id << " " << election[0].description << " "<<endl;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 		cout << election[0].allowed_voters_code[i] << "   " << election[0].nominees[i];
 
 
@@ -112,8 +116,99 @@ void readelections()
 	}
 	input.close();
 }
+bool loginvoter()
+{
+	system("CLS");
+	string username;
+	string password;
+	char ans;
+	int i = 0;
+	do
+	{
+		cout << "Enter Your Username please\n";
+		cin >> username;
+		cout << "Enter Your password\n";
+		cin >> password;
+		while (!voter[i].voteraccount.username.empty()) {
+			if (voter[i].voteraccount.pass == password && voter[i].voteraccount.username == username)
+				return true;
+			i++;
+		}
+		i = 0;
+		cerr << "Wrong username or password. Do you want to try again?(Y/N)\n";
+		cin >> ans;
+	} while (ans == 'y' || ans == 'Y');
+}
 
+bool loginadmin()
+{
+	system("CLS");
+	string username;
+	string password;
+	char ans;
+	int i = 0;
+	do
+	{
+		cout << "Enter Your Username please\n";
+		cin >> username;
+		cout << "Enter Your password\n";
+		cin >> password;
+		while (!admin[i].adminaccount.username.empty()) {
+			if (admin[i].adminaccount.pass == password && admin[i].adminaccount.username == username)
+				return true;
+			i++;
+		}
+		i = 0;
+		cerr << "Wrong username or password. Do you want to try again?(Y/N)\n";
+		cin >> ans;
+	} while (ans == 'y' || ans == 'Y');
+}
+void registervoter()
+{
+	int i = 0;
+	while (!voter[i].voteraccount.username.empty())
+		i++;
+		cout << "Enter your ID\n";
+		cin >> voter[i].id;
+		cout << "Enter your Username\n";
+		cin >> voter[i].voteraccount.username;
+		cout << "Enter your password\n";
+		cin >> voter[i].voteraccount.pass;
+		cout << "Enter your Email\n";
+		cin >> voter[i].email;
+		cout << "Enter your Address\n";
+		cin >> voter[i].address;
+		cout << "Enter your phone number\n";
+		cin >> voter[i].phone;
+		cout << "Enter your voting code\n";
+		cin >> voter[i].code;
+}
 
+void registeradmin()
+{
+	int numberofid;
+	int i = 0;
+	while (!admin[i].adminaccount.username.empty())
+		i++;
+	cout << "Enter your ID\n";
+	cin >> admin[i].id;
+	cout << "Enter your Username\n";
+	cin >> admin[i].adminaccount.username;
+	cout << "Enter your password\n";
+	cin >> admin[i].adminaccount.pass;
+	cout << "Enter your Email\n";
+	cin >> admin[i].email;
+	cout << "Enter your Address\n";
+	cin >> admin[i].address;
+	cout << "Enter your phone number\n";
+	cin >> admin[i].phone;
+	cout << "how many election ids do you have?\n";
+	cin >> numberofid;
+	for (int j = 0; j < numberofid; ++j) {
+		cout << "enter the  " << j + 1 << "  id";
+		cin >> admin[i].election_ids[j];
+	}
+}
 
 
 
