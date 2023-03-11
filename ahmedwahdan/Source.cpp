@@ -37,7 +37,10 @@ struct election {
 	int votes[10];
 	int allowed_voters_code[10];
 }election[20];
-
+int acctype;//1<voter> 2<admin>
+int voterindex;//to save his index throughout the program//
+int adminindex;//to save his index throughout the program//
+int firstmenu();
 void readvoters();
 void readadmins();
 void readelections();
@@ -46,16 +49,78 @@ bool loginvoter();
 bool loginadmin();
 void registervoter();
 void registeradmin();
+int mainmenu();
+void votermenu();
+void adminmenu();
+void test();
 int main()
 {
 	readfromfiles();
-	cout << election[0].id << " " << election[0].description << " "<<endl;
-	for (int i = 0; i < 2; i++)
-		cout << election[0].allowed_voters_code[i] << "   " << election[0].nominees[i];
+	mainmenu();
+	
+}
+int firstmenu() {
+	system("CLS");
+	int option;
+	cout << "\t\t\t\t\t*******************************\n";
+	cout << "\t\t\t\t\t*****";
+	cout << "WELCOME TO VOTING.COM*****\t\t\t\t \n";
+	cout << "\t\t\t\t\t*******************************\n\n\n";
+	cout << " \t\t <1-voter>  \t\t\t  <2-adminstrator> \t\t\t <3-Exit>\n\n\n ";
+	cin >> option;
+	return option;
+}
+int mainmenu()
+{
+	system("CLS");
+	
+	int ans;
+	bool verified;
+	while (true) {
+		int x = firstmenu();
+		switch (x) {
+		case 1:
+			cout << " \t\t <1-Login>  \t\t\t\t\t\t <2-Register>\n\n\n ";
+			cin >> ans;
+			switch (ans) {
+			case 1:
+				verified = loginvoter();
+				if (!verified)
+					continue;
+				else
+					votermenu();
+				continue;
+			case 2:
+				registervoter();
+				continue;
+			default:cout << "Invalid choise please try again...\n";
+				continue;
+			}
 
+		case 2:
+			    cout << " \t\t <1-Login>  \t\t\t\t\t\t <2-Register>\n\n\n ";
+			    cin >> ans;
+			    switch (ans) {
+			    case 1:
+				verified = loginadmin();
+				if (!verified)
+					continue;
+				else
+					adminmenu();
+				continue;
+			    case 2:
+				registeradmin();
+				continue;
+			    default:cout << "Invalid choise please try again...\n";
+				continue;
+			    }
 
-
-
+		case 3:cout << "Thank you for choosing voting.com goodbye...\n\n";
+			return 0;
+		default:cout << "Invalid choise please try again...\n";
+			continue;
+		}
+	}
 }
 void readfromfiles() {
 	readvoters();
@@ -110,8 +175,8 @@ void readelections()
 		input >> election[count].nominees[i];
 		for(int j=0;j<3;j++)
 		input >> election[count].votes[j];
-		for(int k=0;k<3;++k)
-		input >> election[count].allowed_voters_code[k];
+		for (int k = 0; k < 3; ++k)
+			input >> election[count].allowed_voters_code[k];
 		count++;
 	}
 	input.close();
@@ -129,15 +194,18 @@ bool loginvoter()
 		cin >> username;
 		cout << "Enter Your password\n";
 		cin >> password;
-		while (!voter[i].voteraccount.username.empty()) {
-			if (voter[i].voteraccount.pass == password && voter[i].voteraccount.username == username)
+		for (i = 0; i < 20; ++i) {
+			if (voter[i].voteraccount.username == username && voter[i].voteraccount.pass == password) {
+				voterindex = i;
 				return true;
-			i++;
+			}
+
 		}
 		i = 0;
 		cerr << "Wrong username or password. Do you want to try again?(Y/N)\n";
 		cin >> ans;
 	} while (ans == 'y' || ans == 'Y');
+	return false;
 }
 
 bool loginadmin()
@@ -155,16 +223,21 @@ bool loginadmin()
 		cin >> password;
 		while (!admin[i].adminaccount.username.empty()) {
 			if (admin[i].adminaccount.pass == password && admin[i].adminaccount.username == username)
+			{
+				adminindex = i;
 				return true;
+			}
 			i++;
 		}
 		i = 0;
 		cerr << "Wrong username or password. Do you want to try again?(Y/N)\n";
 		cin >> ans;
 	} while (ans == 'y' || ans == 'Y');
+	return false;
 }
 void registervoter()
 {
+	system("CLS");
 	int i = 0;
 	while (!voter[i].voteraccount.username.empty())
 		i++;
@@ -181,11 +254,16 @@ void registervoter()
 		cout << "Enter your phone number\n";
 		cin >> voter[i].phone;
 		cout << "Enter your voting code\n";
-		cin >> voter[i].code;
+		cin >> voter[i].code; cout << endl << endl << endl;
+		cout << "THANK YOU FOR REGISTERING..REDIRECTING YOU NOW\n";
+		//cout << voter[i].voteraccount.username << "   " << voter[i].voteraccount.pass;
+		//Sleep(2000);
+		//firstmenu();
 }
 
 void registeradmin()
 {
+	system("CLS");
 	int numberofid;
 	int i = 0;
 	while (!admin[i].adminaccount.username.empty())
@@ -208,10 +286,44 @@ void registeradmin()
 		cout << "enter the  " << j + 1 << "  id";
 		cin >> admin[i].election_ids[j];
 	}
+	cout << endl << endl << endl;
+	cout << "THANK YOU FOR REGISTERING..REDIRECTING YOU NOW\n";
+	//Sleep(2000);
+	//firstmenu();
 }
 
+void votermenu() {
+	system("CLS");
+	int choice;
+	while (true) {
+		cout << "\t\t\t\t\t*******************************\n";
+		cout << "\t\t\t\t\t*****";
+		cout << "VOTERS MENU****\t\t\t\t \n";
+		cout << "\t\t\t\t\t*******************************\n\n\n";
+		cout << "\t\t\t<1-editinfo>\t\t\t\t<2-back to main menu>\n\n";
+		cin >> choice;
+		switch (choice) {
+		case 1:  test();
+			     break;
+		case 2:
+			break;
+		}
+		break;
+	}
 
+}
+void adminmenu() {
+	int x;
+	cout << "welcome to admin menu\n";
+	cin >> x;
+	if (x == 2)
+		test();
+}
+void test()
+{
+	cout << "Hello\n\n\n";
 
+}
 
 
 
