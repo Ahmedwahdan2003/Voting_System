@@ -314,8 +314,7 @@ void registeradmin()
 void votermenu()
 {
 	char answer;
-	do
-	{
+	while (true) {
 		int ans;
 		system("CLS");
 		cout << "\t\t\t\t\t ***********\n";
@@ -329,19 +328,19 @@ void votermenu()
 
 		switch (ans)
 		{
-		case 1: editinfov();
-			break;
-		case 2: listofvotes();
-			break;
+		case 1: editinfov(); cout << "operation done successfully.. redirecting you now";
+			Sleep(1000);
+			continue;
+		case 2: listofvotes(); cout << "operation done successfully.. redirecting you now";
+			Sleep(1000);
+			continue;
 		case 3:
 			break;
 
 		}
-		cout << "do you want to go back to menu ?(y/n)";
-		cin >> answer;
-	} while (answer == 'y' || answer == 'Y');
+		break;
+	}
 }
-
 void adminmenu()
 {
 	while (true) {
@@ -359,11 +358,14 @@ void adminmenu()
 		switch (ans)
 		{
 		case 1: editinfoa();
-			Sleep(2000);
+			cout << "operation done successfully.. redirecting you now";
+			Sleep(1000);
 			continue;
-		case 2: createvote(); Sleep(2000);
+		case 2: createvote();  cout << "operation done successfully.. redirecting you now";
+			Sleep(1000);
 			continue;
-		case 3: deletevote(); Sleep(2000);
+		case 3: deletevote();  cout << "operation done successfully.. redirecting you now";
+			Sleep(1000);
 			continue;
 		case 4:
 			break;
@@ -374,8 +376,8 @@ void adminmenu()
 		//cout << "do you want to go back to menu ?(y/n)";
 		//cin >> answer;
 	}
-}
 
+}
 void editinfoa()
 {
 	system("CLS");
