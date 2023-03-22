@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<string>
+#include<vector>
 #include<Windows.h>
 using namespace std;
 struct account {
@@ -38,9 +39,9 @@ struct election {
 	int votes[10];
 	int allowed_voters_code[10];
 }election[20];
-int acctype;//1<voter> 2<admin>
-int voterindex;//to save his index throughout the program//
-int adminindex;//to save his index throughout the program//
+
+static int voterindex;//to save his index throughout the program//
+static int adminindex;//to save his index throughout the program//
 int firstmenu();
 void readvoters();
 void readadmins();
@@ -73,10 +74,10 @@ void editaddressv();
 void editphonenov();
 int main()
 {
-	readfromfiles();
-	mainmenu();
-
-
+	//**********************************************************************
+	readfromfiles();													//**	
+	mainmenu();															//**		
+	//**********************************************************************
 }
 int firstmenu() {
 	system("CLS");
@@ -210,9 +211,9 @@ bool loginvoter()
 	do
 	{
 		cout << "Enter Your Username please\n";
-		cin >> username;
+	 getline(cin,username);
 		cout << "Enter Your password\n";
-		cin >> password;
+		getline(cin, password);
 		for (i = 0; i < 20; ++i) {
 			if (voter[i].voteraccount.username == username && voter[i].voteraccount.pass == password) {
 				voterindex = i;
@@ -307,8 +308,6 @@ void registeradmin()
 	}
 	cout << endl << endl << endl;
 	cout << "THANK YOU FOR REGISTERING..REDIRECTING YOU NOW\n";
-	//Sleep(2000);
-	//firstmenu();
 }
 
 void votermenu()
@@ -370,11 +369,10 @@ void adminmenu()
 		case 4:
 			break;
 		case 5: switchacc();
-
+			continue;
 		}
 		break;
-		//cout << "do you want to go back to menu ?(y/n)";
-		//cin >> answer;
+
 	}
 
 }
@@ -670,11 +668,67 @@ void editphonenov()
 }
 void createvote()
 {
+	int i = 0;
+	int num, n;
+	while (!election[i].name.empty()) {
+		i++;
+	}
+	cout << " enter your ID:\n";
+	cin >> election[i].id;
+	cout << " enter the election's name : \n";
+	cin >> election[i].name;
+	cout << " enter description :\n";
+	cin >> election[i].description;
+	cout << " How many nominee do you want?\n";
+	cin >> num;
+	for (int x = 0; x < num; x++)
+
+	{
+		cin >> election[i].nominees[x];
+	}
+	cout << "How many voter code do you want?\n";
+	cin >> n;
+	for (int y = 0; y < n; y++) {
+
+		cin >> election[i].allowed_voters_code[y];
+	}
 
 }
 void deletevote()
 {
-
+	system("CLS");
+	int ans;
+	bool flag = false;
+	for (int i = 0; i < 20; i++) {
+		if (admin[adminindex].id == election[i].id)
+		{
+			flag = true;
+			break;
+		}
+		else {
+			flag = false;
+			break;
+		}
+	}
+	if (flag == false)
+		cout << "SORRY YOU MUST CREATE A VOTE FIRST TO DELETE IT..\n";
+	else {
+		cout << "\t\t\t choose the vote you want to delete\n";
+		for (int i = 0; i < 20; i++) {
+			if (admin[adminindex].id == election[i].id) {
+				cout << i + 1 << "- " << election[i].name << endl;
+			}
+			else
+				continue;
+		}
+		cin >> ans;
+		ans--;
+		int j = 0;
+		for (int i = ans;!election[j].name.empty(); i++) {
+			election[i] = election[i + 1];
+			j++;
+		}
+	}
 }
 void switchacc()
 {
