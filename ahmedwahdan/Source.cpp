@@ -54,38 +54,38 @@ void registeradmin();
 int mainmenu();
 void votermenu();
 void adminmenu();
-void editinfoa();
+void editinfoadmin();
 void createvote();
 void deletevote();
 void switchacc();
-void editida();
-void editusernamea();
-void editpassa();
-void editemaila();
-void editaddressa();
-void editphonenoa();
+void editidadmin();
+void editusernameadmin();
+void editpassadmin();
+void editemailadmin();
+void editaddressadmin();
+void editphonenoadmin();
 void listofvotes();
-void editinfov();
-void editidv();
-void editusernamev();
-void editpassv();
-void editemailv();
-void editaddressv();
-void editphonenov();
+void editinfovoter();
+void editidvoter();
+void editusernamevoter();
+void editpassvoter();
+void editemailvoter();
+void editaddressvoter();
+void editphonenovoter();
 int main()
 {
-	//**********************************************************************
-	readfromfiles();													//**	
-	mainmenu();															//**		
-	//**********************************************************************
+	//************************
+	readfromfiles();	  //**	
+	mainmenu();			  //**		
+	//************************
 }
 int firstmenu() {
 	system("CLS");
 	int option;
-	cout << "\t\t\t\t\t\t***********\n";
+	cout << "\t\t\t\t\t\t*****\n";
 	cout << "\t\t\t\t\t***";
 	cout << "WELCOME TO VOTING.COM***\t\t\t\t\n";
-	cout << "\t\t\t\t\t\t***********\n\n\n";
+	cout << "\t\t\t\t\t\t*****\n\n\n";
 	cout << " \t\t <1-voter>  \t\t\t  <2-adminstrator> \t\t\t <3-Exit>\n\n\n ";
 	cin >> option;
 	return option;
@@ -211,7 +211,7 @@ bool loginvoter()
 	do
 	{
 		cout << "Enter Your Username please\n";
-	 getline(cin,username);
+		getline(cin, username);
 		cout << "Enter Your password\n";
 		getline(cin, password);
 		for (i = 0; i < 20; ++i) {
@@ -316,10 +316,10 @@ void votermenu()
 	while (true) {
 		int ans;
 		system("CLS");
-		cout << "\t\t\t\t\t ***********\n";
+		cout << "\t\t\t\t\t *****\n";
 		cout << "\t\t\t\t\t***";
 		cout << "VOTERS MENU**\t\t\t\t \n";
-		cout << "\t\t\t\t\t ***********\n\n\n";
+		cout << "\t\t\t\t\t *****\n\n\n";
 		cout << "what do you want to do ?" << endl;
 		cout << "1-edit information\t\t\t" << "3-show list of votes you have access to \t\t\t" << "3-logout \t\t\t";
 		cout << endl;
@@ -327,7 +327,7 @@ void votermenu()
 
 		switch (ans)
 		{
-		case 1: editinfov(); cout << "operation done successfully.. redirecting you now";
+		case 1: editinfovoter(); cout << "operation done successfully.. redirecting you now";
 			Sleep(1000);
 			continue;
 		case 2: listofvotes(); cout << "operation done successfully.. redirecting you now";
@@ -344,10 +344,10 @@ void adminmenu()
 {
 	while (true) {
 		system("CLS");
-		cout << "\t\t\t\t\t ***********\n";
+		cout << "\t\t\t\t\t *****\n";
 		cout << "\t\t\t\t\t***";
 		cout << "ADMINS MENU***\t\t\t\t \n";
-		cout << "\t\t\t\t\t ***********\n\n\n";
+		cout << "\t\t\t\t\t *****\n\n\n";
 		int ans;
 		cout << "what do you want to do ?" << endl;
 		cout << "1-edit information\t\t" << "2-create vote\t\t" << "3-delete vote\t\t" << "4-logout \t\t" << "5-switch account\t\t";
@@ -356,7 +356,7 @@ void adminmenu()
 
 		switch (ans)
 		{
-		case 1: editinfoa();
+		case 1: editinfoadmin();
 			cout << "operation done successfully.. redirecting you now";
 			Sleep(1000);
 			continue;
@@ -376,7 +376,7 @@ void adminmenu()
 	}
 
 }
-void editinfoa()
+void editinfoadmin()
 {
 	system("CLS");
 	int ans;
@@ -386,21 +386,21 @@ void editinfoa()
 	cin >> ans;
 	switch (ans)
 	{
-	case 1: editida();
+	case 1: editidadmin();
 		break;
-	case 2: editusernamea();
+	case 2: editusernameadmin();
 		break;
-	case 3: editpassa();
+	case 3: editpassadmin();
 		break;
-	case 4:editemaila();
+	case 4:editemailadmin();
 		break;
-	case 5: editaddressa();
+	case 5: editaddressadmin();
 		break;
-	case 6: editphonenoa();
+	case 6: editphonenoadmin();
 		break;
 	}
 }
-void editida()
+void editidadmin()
 {
 	system("CLS");
 	int oldid;
@@ -420,7 +420,7 @@ void editida()
 		else cout << "wrong id ";
 	} while (true);
 }
-void editusernamea()
+void editusernameadmin()
 {
 	system("CLS");
 	string oldusername;
@@ -440,7 +440,7 @@ void editusernamea()
 		else cout << "wrong username ";
 	} while (true);
 }
-void editpassa()
+void editpassadmin()
 {
 	system("CLS");
 	string oldpass;
@@ -460,7 +460,7 @@ void editpassa()
 		else cout << "wrong password ";
 	} while (true);
 }
-void editemaila()
+void editemailadmin()
 {
 	system("CLS");
 	string oldemail;
@@ -480,7 +480,7 @@ void editemaila()
 		else cout << "wrong e-mail ";
 	} while (true);
 }
-void editaddressa()
+void editaddressadmin()
 {
 	system("CLS");
 	string oldaddress;
@@ -501,7 +501,7 @@ void editaddressa()
 	} while (true);
 
 }
-void editphonenoa()
+void editphonenoadmin()
 {
 	system("CLS");
 	int oldphoneno;
@@ -522,7 +522,7 @@ void editphonenoa()
 	} while (true);
 }
 
-void editinfov()
+void editinfovoter()
 {
 	system("CLS");
 	int ans;
@@ -532,21 +532,21 @@ void editinfov()
 	cin >> ans;
 	switch (ans)
 	{
-	case 1: editidv();
+	case 1: editidvoter();
 		break;
-	case 2: editusernamev();
+	case 2: editusernamevoter();
 		break;
-	case 3: editpassv();
+	case 3: editpassvoter();
 		break;
-	case 4:editemailv();
+	case 4:editemailvoter();
 		break;
-	case 5: editaddressv();
+	case 5: editaddressvoter();
 		break;
-	case 6: editphonenov();
+	case 6: editphonenovoter();
 		break;
 	}
 }
-void editidv()
+void editidvoter()
 {
 	system("CLS");
 	int oldid;
@@ -566,7 +566,7 @@ void editidv()
 		else cout << "wrong id ";
 	} while (true);
 }
-void editusernamev()
+void editusernamevoter()
 {
 	system("CLS");
 	string oldusername;
@@ -586,7 +586,7 @@ void editusernamev()
 		else cout << "wrong username ";
 	} while (true);
 }
-void editpassv()
+void editpassvoter()
 {
 	system("CLS");
 	string oldpass;
@@ -606,7 +606,7 @@ void editpassv()
 		else cout << "wrong password ";
 	} while (true);
 }
-void editemailv()
+void editemailvoter()
 {
 	system("CLS");
 	string oldemail;
@@ -626,7 +626,7 @@ void editemailv()
 		else cout << "wrong e-mail ";
 	} while (true);
 }
-void editaddressv()
+void editaddressvoter()
 {
 	system("CLS");
 	string oldaddress;
@@ -646,7 +646,7 @@ void editaddressv()
 		else cout << "wrong address ";
 	} while (true);
 }
-void editphonenov()
+void editphonenovoter()
 {
 	system("CLS");
 	int oldphoneno;
@@ -679,17 +679,18 @@ void createvote()
 	cin >> election[i].name;
 	cout << " enter description :\n";
 	cin >> election[i].description;
-	cout << " How many nominee do you want?\n";
+	cout << " How many nominees do you want?\n";
 	cin >> num;
 	for (int x = 0; x < num; x++)
 
 	{
+		cout << "enter name of nominee " << x + 1 << " :";
 		cin >> election[i].nominees[x];
 	}
-	cout << "How many voter code do you want?\n";
+	cout << "How many voter codes do you want?\n";
 	cin >> n;
 	for (int y = 0; y < n; y++) {
-
+		cout << "enter voter code " << y + 1 << " :";
 		cin >> election[i].allowed_voters_code[y];
 	}
 
@@ -724,7 +725,7 @@ void deletevote()
 		cin >> ans;
 		ans--;
 		int j = 0;
-		for (int i = ans;!election[j].name.empty(); i++) {
+		for (int i = ans; !election[j].name.empty(); i++) {
 			election[i] = election[i + 1];
 			j++;
 		}
