@@ -38,10 +38,13 @@ struct election {
 	string nominees[10];
 	int votes[10];
 	int allowed_voters_code[10];
+	bool end = false;
+	bool finished = true;
 }election[20];
 
 static int voterindex;//to save his index throughout the program//
 static int adminindex;//to save his index throughout the program//
+static int electionindex;
 int firstmenu();
 void readvoters();
 void readadmins();
@@ -72,20 +75,44 @@ void editpassvoter();
 void editemailvoter();
 void editaddressvoter();
 void editphonenovoter();
+void endvote();
+void winner();
+void leadingnominee();
+void vote();
 int main()
 {
-	//************************
-	readfromfiles();	  //**	
-	mainmenu();			  //**		
-	//************************
+
+readfromfiles();
+	election[0].id = 24;
+	election[0].name = "ahmd";
+	election[0].description = "4444";
+	election[0].nominees[0] = "abdelatif";
+	election[0].nominees[1] = "rahaf";
+	election[0].votes[0] = 10;
+	election[0].votes[1] = 5;
+	election[0].allowed_voters_code[0] = 11;
+	election[0].allowed_voters_code[1] = 11;
+	election[0].finished = false;
+	election[1].id = 24;
+	election[1].name = "ahmed";
+	election[1].description = "aaaaaaa";
+	election[1].nominees[0] = "abdelatif";
+	election[1].nominees[1] = "rahaf";
+	election[1].votes[0] = 20;
+	election[1].votes[1] = 21;
+	election[1].allowed_voters_code[0] = 11;
+	election[1].allowed_voters_code[1] = 11;
+	election[1].finished = true;
+	
+	mainmenu();
 }
 int firstmenu() {
 	system("CLS");
 	int option;
-	cout << "\t\t\t\t\t\t*****\n";
+	cout << "\t\t\t\t\t\t***\n";
 	cout << "\t\t\t\t\t***";
 	cout << "WELCOME TO VOTING.COM***\t\t\t\t\n";
-	cout << "\t\t\t\t\t\t*****\n\n\n";
+	cout << "\t\t\t\t\t\t***\n\n\n";
 	cout << " \t\t <1-voter>  \t\t\t  <2-adminstrator> \t\t\t <3-Exit>\n\n\n ";
 	cin >> option;
 	return option;
@@ -169,7 +196,7 @@ void readvoters()
 {
 	int count = 0;
 	fstream input;
-	input.open("text.txt");
+	input.open("voters.txt");
 	while (input.good()) {
 		input >> voter[count].id;
 		input >> voter[count].voteraccount.username;
@@ -184,7 +211,7 @@ void readvoters()
 }
 void readelections()
 {
-	int count = 0;
+	/*int count = 0;
 	fstream input;
 	input.open("elections.txt");
 	while (input.good()) {
@@ -193,13 +220,13 @@ void readelections()
 		getline(input, election[count].description);
 		for (int i = 0; i < 2; ++i)
 			input >> election[count].nominees[i];
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 2; j++)
 			input >> election[count].votes[j];
-		for (int k = 0; k < 3; ++k)
+		for (int k = 0; k < 2; ++k)
 			input >> election[count].allowed_voters_code[k];
 		count++;
 	}
-	input.close();
+	input.close();*/
 }
 bool loginvoter()
 {
@@ -211,9 +238,9 @@ bool loginvoter()
 	do
 	{
 		cout << "Enter Your Username please\n";
-		getline(cin, username);
+		cin >> username;
 		cout << "Enter Your password\n";
-		getline(cin, password);
+		cin >> password;
 		for (i = 0; i < 20; ++i) {
 			if (voter[i].voteraccount.username == username && voter[i].voteraccount.pass == password) {
 				voterindex = i;
@@ -316,12 +343,12 @@ void votermenu()
 	while (true) {
 		int ans;
 		system("CLS");
-		cout << "\t\t\t\t\t *****\n";
+		cout << "\t\t\t\t\t *\n";
 		cout << "\t\t\t\t\t***";
 		cout << "VOTERS MENU**\t\t\t\t \n";
-		cout << "\t\t\t\t\t *****\n\n\n";
+		cout << "\t\t\t\t\t *\n\n\n";
 		cout << "what do you want to do ?" << endl;
-		cout << "1-edit information\t\t\t" << "3-show list of votes you have access to \t\t\t" << "3-logout \t\t\t";
+		cout << "1-edit information\t\t\t" << "2-show list of votes you have access to \t\t\t" << "3-logout \t\t\t";
 		cout << endl;
 		cin >> ans;
 
@@ -344,13 +371,13 @@ void adminmenu()
 {
 	while (true) {
 		system("CLS");
-		cout << "\t\t\t\t\t *****\n";
+		cout << "\t\t\t\t\t *\n";
 		cout << "\t\t\t\t\t***";
 		cout << "ADMINS MENU***\t\t\t\t \n";
-		cout << "\t\t\t\t\t *****\n\n\n";
+		cout << "\t\t\t\t\t *\n\n\n";
 		int ans;
 		cout << "what do you want to do ?" << endl;
-		cout << "1-edit information\t\t" << "2-create vote\t\t" << "3-delete vote\t\t" << "4-logout \t\t" << "5-switch account\t\t";
+		cout << "1-edit information\t\t" << "2-create vote\t\t" << "3-delete vote\t\t" << "4-logout\t\t" << "5-switch account\t\t" << " 6-end vote\t\t";
 		cout << endl;
 		cin >> ans;
 
@@ -369,6 +396,8 @@ void adminmenu()
 		case 4:
 			break;
 		case 5: switchacc();
+			continue;
+		case 6: endvote();
 			continue;
 		}
 		break;
@@ -747,7 +776,125 @@ void switchacc()
 		cout << "sorry you dont have an account as a voter..";
 	Sleep(1000);
 }
+
+
+void endvote()
+{
+
+	system("CLS");
+	int ans;
+	bool boolean = false;
+	for (int i = 0; i < 20; i++) {
+		if (!election[i].name.empty())
+			boolean = true;
+	}
+	if (boolean == false) {
+		cout << "YOU MUST CREATE A VOTE FIRST TO END IT\n";
+		Sleep(1000);
+	}
+	else {
+		cout << "choose the vote you want to end\n";
+		int j = 1;
+		for (int i = 0; i < 20; i++) {
+			if (election[i].end == false && election[i].id == admin[adminindex].id) {
+				cout << j << "- " << election[i].name << endl;
+				j++;
+			}
+			else
+				continue;
+		}
+		cin >> ans;
+		ans--;
+		for (int i = 0; i < 20; i++) {
+			if (ans == i) {
+				election[i].end = true;
+			}
+		}
+		
+	}
+}
 void listofvotes()
 {
+	int ans;
+	system("cls");
+	for (int i = 0; i < 20; i++)
+	{
+		if (voter[voterindex].code == election[i].allowed_voters_code[i])
+		{
+
+			cout << "- " << "(" << i << ")     " << election[i].name << "\n\n";
+		}
+	}
+	cout << "Enter your Choice\n";
+	cin >> ans;
+	electionindex = ans;
+	if (election[electionindex].finished == true)
+	{
+		cout << "this vote is finished";
+		winner();
+	}
+	else {
+		cout << election[electionindex].name<<endl;
+		cout << election[electionindex].description <<"\n\n";
+		cout <<"1- "<< election[electionindex].nominees[0] << "\t\t 2- " << election[electionindex].nominees[1] << endl;
+		vote();
+		leadingnominee();
+	}
+
+}
+void vote()
+{
+
+
+	int nomineeno;
+	cout << "\nenter number of nominee you want to vote for : ";
+	cin >> nomineeno;
+	election[electionindex].votes[nomineeno - 1]++;
+	cout << "number of vote for " << election[electionindex].nominees[nomineeno - 1] << ": " << election[electionindex].votes[nomineeno - 1];
+
+	Sleep(2000);
+
+
+}
+
+
+void leadingnominee()
+{
+	int leadingn = 1;
+	int maxvotes = election[electionindex].votes[0];
+	for (int j = 0; j < 10; j++)
+		if (election[electionindex].votes[j] > maxvotes)
+		{
+			maxvotes = election[electionindex].votes[j];
+			leadingn = j + 1;
+
+
+		}
+	cout << "\nthe leading nominee is : " << election[electionindex].nominees[leadingn - 1] << " nominee is leading with " << maxvotes << "votes " << "\n";
+
+
+	Sleep(2000);
+
+}
+void winner()
+{
+
+	int max = 0;
+	int winner=0;
+
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (election[electionindex].votes[i] > max)
+		{
+			max = election[electionindex].votes[i];
+			winner = i + 1;
+		}
+		cout << "\nnumber of votes for nominee " << election[electionindex].nominees[i] << ": " << election[electionindex].votes[i];
+	}
+	cout << "\nthe winner is : " << election[electionindex].nominees[winner - 1]<<"\n\n\n";
+
+
+	system("pause");
 
 }

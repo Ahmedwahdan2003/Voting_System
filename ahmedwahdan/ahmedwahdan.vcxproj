@@ -132,7 +132,7 @@
   <ItemGroup>
     <Text Include="admins.txt" />
     <Text Include="elections.txt" />
-    <Text Include="Text.txt" />
+    <Text Include="voters.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
