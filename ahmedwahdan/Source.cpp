@@ -39,7 +39,6 @@ struct election {
 	int votes[10];
 	int allowed_voters_code[10];
 	bool end = false;
-	bool finished = true;
 }election[20];
 
 static int voterindex;//to save his index throughout the program//
@@ -82,7 +81,7 @@ void vote();
 int main()
 {
 
-readfromfiles();
+	readfromfiles();
 	election[0].id = 24;
 	election[0].name = "ahmd";
 	election[0].description = "4444";
@@ -92,7 +91,7 @@ readfromfiles();
 	election[0].votes[1] = 5;
 	election[0].allowed_voters_code[0] = 11;
 	election[0].allowed_voters_code[1] = 11;
-	election[0].finished = false;
+	election[0].end = false;
 	election[1].id = 24;
 	election[1].name = "ahmed";
 	election[1].description = "aaaaaaa";
@@ -102,8 +101,8 @@ readfromfiles();
 	election[1].votes[1] = 21;
 	election[1].allowed_voters_code[0] = 11;
 	election[1].allowed_voters_code[1] = 11;
-	election[1].finished = true;
-	
+	election[1].end = true;
+
 	mainmenu();
 }
 int firstmenu() {
@@ -810,7 +809,7 @@ void endvote()
 				election[i].end = true;
 			}
 		}
-		
+
 	}
 }
 void listofvotes()
@@ -828,15 +827,15 @@ void listofvotes()
 	cout << "Enter your Choice\n";
 	cin >> ans;
 	electionindex = ans;
-	if (election[electionindex].finished == true)
+	if (election[electionindex].end == true)
 	{
 		cout << "this vote is finished";
 		winner();
 	}
 	else {
-		cout << election[electionindex].name<<endl;
-		cout << election[electionindex].description <<"\n\n";
-		cout <<"1- "<< election[electionindex].nominees[0] << "\t\t 2- " << election[electionindex].nominees[1] << endl;
+		cout << election[electionindex].name << endl;
+		cout << election[electionindex].description << "\n\n";
+		cout << "1- " << election[electionindex].nominees[0] << "\t\t 2- " << election[electionindex].nominees[1] << endl;
 		vote();
 		leadingnominee();
 	}
@@ -880,7 +879,7 @@ void winner()
 {
 
 	int max = 0;
-	int winner=0;
+	int winner = 0;
 
 
 	for (int i = 0; i < 2; i++)
@@ -892,9 +891,10 @@ void winner()
 		}
 		cout << "\nnumber of votes for nominee " << election[electionindex].nominees[i] << ": " << election[electionindex].votes[i];
 	}
-	cout << "\nthe winner is : " << election[electionindex].nominees[winner - 1]<<"\n\n\n";
+	cout << "\nthe winner is : " << election[electionindex].nominees[winner - 1] << "\n\n\n";
 
 
 	system("pause");
+	  
 
 }
