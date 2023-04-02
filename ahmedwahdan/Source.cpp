@@ -27,7 +27,7 @@ struct admin {
 	string email;
 	string address;
 	int phone;
-	int election_ids[10];
+	int election_ids[5];
 }admin[20];
 
 
@@ -40,7 +40,7 @@ struct election {
 	int allowed_voters_code[10];
 	bool end = false;
 }election[20];
-
+static int numberofid;
 static int voterindex;//to save his index throughout the program//
 static int adminindex;//to save his index throughout the program//
 static int electionindex;
@@ -310,7 +310,7 @@ void registervoter()
 void registeradmin()
 {
 	system("CLS");
-	int numberofid;
+	
 	int i = 0;
 	while (!admin[i].adminaccount.username.empty())
 		i++;
@@ -701,7 +701,7 @@ void createvote()
 	while (!election[i].name.empty()) {
 		i++;
 	}
-	cout << " enter your ID:\n";
+	cout << " enter Election ID:\n";
 	cin >> election[i].id;
 	cout << " enter the election's name : \n";
 	cin >> election[i].name;
@@ -721,6 +721,7 @@ void createvote()
 		cout << "enter voter code " << y + 1 << " :";
 		cin >> election[i].allowed_voters_code[y];
 	}
+	election[i].end = false;
 
 }
 void deletevote()
@@ -729,28 +730,36 @@ void deletevote()
 	int ans;
 	bool flag = false;
 	for (int i = 0; i < 20; i++) {
-		if (admin[adminindex].id == election[i].id)
-		{
-			flag = true;
-			break;
+		for (int j = 0; j < 3; j++) {
+			if (admin[adminindex].election_ids[j] == election[i].id)
+			{
+				flag = true;
+				break;
+			}
+			else {
+				flag = false;
+				continue;
+			}
 		}
-		else {
-			flag = false;
-			break;
-		}
+		if(flag==true)
+		break;
 	}
 	if (flag == false)
 		cout << "SORRY YOU MUST CREATE A VOTE FIRST TO DELETE IT..\n";
 	else {
 		cout << "\t\t\t choose the vote you want to delete\n";
 		for (int i = 0; i < 20; i++) {
-			if (admin[adminindex].id == election[i].id) {
-				cout << i + 1 << "- " << election[i].name << endl;
+			for (int j = 0; j < numberofid; j++) {
+				if (admin[adminindex].election_ids[j] == election[i].id) {
+					cout << i + 1 << "- " << election[i].name << endl;
+				}
+				
 			}
-			else
-				continue;
 		}
+		cout << "press -1 to back to the menu\n\n";
 		cin >> ans;
+		if (ans == -1)
+			return;
 		ans--;
 		int j = 0;
 		for (int i = ans; !election[j].name.empty(); i++) {
@@ -758,6 +767,7 @@ void deletevote()
 			j++;
 		}
 	}
+	
 }
 void switchacc()
 {
@@ -783,33 +793,53 @@ void endvote()
 	system("CLS");
 	int ans;
 	bool boolean = false;
+	bool valid = true;
 	for (int i = 0; i < 20; i++) {
 		if (!election[i].name.empty())
 			boolean = true;
 	}
+
 	if (boolean == false) {
 		cout << "YOU MUST CREATE A VOTE FIRST TO END IT\n";
 		Sleep(1000);
 	}
 	else {
-		cout << "choose the vote you want to end\n";
-		int j = 1;
-		for (int i = 0; i < 20; i++) {
-			if (election[i].end == false && election[i].id == admin[adminindex].id) {
-				cout << j << "- " << election[i].name << endl;
-				j++;
-			}
-			else
-				continue;
-		}
-		cin >> ans;
-		ans--;
-		for (int i = 0; i < 20; i++) {
-			if (ans == i) {
-				election[i].end = true;
+		for (int i = 0; i < 20; ++i) {
+			for (int j = 0; j < numberofid; j++) {
+				if (election[i].id == admin[adminindex].election_ids[j])
+				{
+					if (election[i].end == true)
+						valid = false;
+					else
+						valid = true;
+				}
+			
 			}
 		}
+		if (valid == false)
+		{
+			cout << "All of your votes already ended\n";
+			Sleep(1600);
+		}
+		else {
 
+
+			cout << "choose the vote you want to end\n";
+
+			for (int i = 0; i < 20; i++) {
+				for (int k = 0; k < numberofid; k++) {
+					if (election[i].end == false && election[i].id == admin[adminindex].election_ids[k]) {
+						cout << i << "- " << election[i].name << endl;
+					}
+				}
+			}
+			cout << "press -1 to back to the menu\n\n";
+			cin >> ans;
+			if (ans == -1)
+				return;
+
+			election[ans].end = true;
+		}
 	}
 }
 void listofvotes()
