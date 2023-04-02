@@ -102,7 +102,7 @@ int main()
 	election[1].allowed_voters_code[0] = 11;
 	election[1].allowed_voters_code[1] = 11;
 	election[1].end = true;
-
+	cout << admin[0].election_ids[0] << " " << admin[0].election_ids[1] << " " << admin[0].election_ids[2] << " ";
 	mainmenu();
 }
 int firstmenu() {
@@ -171,7 +171,7 @@ int mainmenu()
 void readfromfiles() {
 	readvoters();
 	readadmins();
-	readelections();
+	//readelections();
 }
 void readadmins()
 {
@@ -736,10 +736,6 @@ void deletevote()
 				flag = true;
 				break;
 			}
-			else {
-				flag = false;
-				continue;
-			}
 		}
 		if(flag==true)
 		break;
@@ -749,7 +745,7 @@ void deletevote()
 	else {
 		cout << "\t\t\t choose the vote you want to delete\n";
 		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < numberofid; j++) {
+			for (int j = 0; j < 3; j++) {
 				if (admin[adminindex].election_ids[j] == election[i].id) {
 					cout << i + 1 << "- " << election[i].name << endl;
 				}
@@ -805,7 +801,7 @@ void endvote()
 	}
 	else {
 		for (int i = 0; i < 20; ++i) {
-			for (int j = 0; j < numberofid; j++) {
+			for (int j = 0; j < 3; j++) {
 				if (election[i].id == admin[adminindex].election_ids[j])
 				{
 					if (election[i].end == true)
@@ -827,7 +823,7 @@ void endvote()
 			cout << "choose the vote you want to end\n";
 
 			for (int i = 0; i < 20; i++) {
-				for (int k = 0; k < numberofid; k++) {
+				for (int k = 0; k < 3; k++) {
 					if (election[i].end == false && election[i].id == admin[adminindex].election_ids[k]) {
 						cout << i << "- " << election[i].name << endl;
 					}
