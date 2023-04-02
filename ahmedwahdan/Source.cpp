@@ -88,8 +88,8 @@ void editelectionnominees(int index);
 void editallowedvotercodes(int index);
 void addnominee(int index);
 void deletenominee(int index);
-
-
+void addvotercode(int index);
+void deletevotercode(int index);
 int main()
 {
 
@@ -1020,7 +1020,16 @@ void editelectionnominees(int index)
 }
 void editallowedvotercodes(int index)
 {
-
+	int ans;
+	cout << "<1>delete voter code\t\t\t<2>add voter code\n\n";
+	cin >> ans;
+	switch (ans) {
+	case 1:deletevotercode(index);
+		break;
+	case 2:addvotercode(index);
+		break;
+	default:cout << "invalid choice\n";
+	}
 }
 void addnominee(int index)
 {
@@ -1052,4 +1061,36 @@ void deletenominee(int index)
 		election[index].votes[i] = election[index].votes[i + 1];
 		j++;
 	}
+}
+void addvotercode(int index)
+{
+	int code;
+	int i = 0;
+	cout << "enter voter code you want to add: ";
+	cin >> code;
+	while (election[index].allowed_voters_code[i] != 0)
+	{
+		i++;
+	}
+	election[index].allowed_voters_code[i] = code;
+	cout << "voter code added successfully";
+}
+void deletevotercode(int index)
+{
+	system("CLS");
+	int ans;
+	cout << "choose the voter code you want to delete: ";
+	for (int i = 0; election[index].allowed_voters_code[i] != 0; i++)
+	{
+		cout << i + 1 << "-" << election[index].allowed_voters_code[i] << endl;
+	}
+	cin >> ans;
+	ans--;
+	int j = 0;
+	for (int i = ans; election[index].allowed_voters_code[i] != 0; i++)
+	{
+		election[index].allowed_voters_code[i] = election[index].allowed_voters_code[i + 1];
+		j++;
+	}
+	cout << "voter code deleted successfully";
 }
