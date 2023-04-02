@@ -38,6 +38,7 @@ struct election {
 	string nominees[10];
 	int votes[10]={0};
 	int allowed_voters_code[10]={0};
+	int nofoids = 0;
 	bool end;
 }election[20];
 static int numberofid;
