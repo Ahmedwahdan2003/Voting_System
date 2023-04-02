@@ -38,7 +38,7 @@ struct election {
 	string nominees[10];
 	int votes[10];
 	int allowed_voters_code[10];
-	bool end = false;
+	bool end;
 }election[20];
 static int numberofid;
 static int voterindex;//to save his index throughout the program//
@@ -102,7 +102,6 @@ int main()
 	election[1].allowed_voters_code[0] = 11;
 	election[1].allowed_voters_code[1] = 11;
 	election[1].end = true;
-	cout << admin[0].election_ids[0] << " " << admin[0].election_ids[1] << " " << admin[0].election_ids[2] << " ";
 	mainmenu();
 }
 int firstmenu() {
@@ -800,26 +799,6 @@ void endvote()
 		Sleep(1000);
 	}
 	else {
-		for (int i = 0; i < 20; ++i) {
-			for (int j = 0; j < 3; j++) {
-				if (election[i].id == admin[adminindex].election_ids[j])
-				{
-					if (election[i].end == true)
-						valid = false;
-					else
-						valid = true;
-				}
-			
-			}
-		}
-		if (valid == false)
-		{
-			cout << "All of your votes already ended\n";
-			Sleep(1600);
-		}
-		else {
-
-
 			cout << "choose the vote you want to end\n";
 
 			for (int i = 0; i < 20; i++) {
@@ -835,13 +814,13 @@ void endvote()
 				return;
 
 			election[ans].end = true;
-		}
 	}
 }
 void listofvotes()
 {
 	int ans;
 	system("cls");
+	cout << "Enter your Choice  or (-1) to go back to menu\n";
 	for (int i = 0; i < 20; i++)
 	{
 		if (voter[voterindex].code == election[i].allowed_voters_code[i])
@@ -850,8 +829,9 @@ void listofvotes()
 			cout << "- " << "(" << i << ")     " << election[i].name << "\n\n";
 		}
 	}
-	cout << "Enter your Choice\n";
 	cin >> ans;
+	if (ans == -1)
+		return;
 	electionindex = ans;
 	if (election[electionindex].end == true)
 	{
