@@ -40,8 +40,12 @@ struct election {
 	string description;
 	string nominees[10];
 	int votes[10] = { 0 };
-	int allowed_voters_code[10] = { 0 };
+	int allowed_voters_code[10] = {0};
+	int no_allowed_voter_code;
+	int no_ofnominees;
 	bool end;
+
+
 }election[20];
 static int numberofid;
 static int voterindex;//to save his index throughout the program//
@@ -90,31 +94,17 @@ void addnominee(int index);
 void deletenominee(int index);
 void addvotercode(int index);
 void deletevotercode(int index);
+void updateadmins();
+void updatevoters();
+void updatelection();
+void updatefiles();
 int main()
 {
 
 	readfromfiles();
-	election[0].id = 24;
-	election[0].name = "ahmed(1)";
-	election[0].description = "4444";
-	election[0].nominees[0] = "abdelatif";
-	election[0].nominees[1] = "rahaf";
-	election[0].votes[0] = 1;
-	election[0].votes[1] = 1;
-	election[0].allowed_voters_code[0] = 11;
-	election[0].allowed_voters_code[1] = 10;
-	election[0].end = false;
-	election[1].id = 24;
-	election[1].name = "ahmed(2)";
-	election[1].description = "aaaaaaa";
-	election[1].nominees[0] = "abdelatif";
-	election[1].nominees[1] = "rahaf";
-	election[1].votes[0] = 20;
-	election[1].votes[1] = 21;
-	election[1].allowed_voters_code[0] = 11;
-	election[1].allowed_voters_code[1] = 10;
-	election[1].end = true;
 	mainmenu();
+	updatefiles();
+
 }
 int firstmenu() {
 	system("CLS");
@@ -182,7 +172,7 @@ int mainmenu()
 void readfromfiles() {
 	readvoters();
 	readadmins();
-	//readelections();
+	readelections();
 }
 void readadmins()
 {
@@ -222,22 +212,39 @@ void readvoters()
 }
 void readelections()
 {
-	/*int count = 0;
+	string id, noon, avc;
+	string in,inn;
+	int count = 0;
 	fstream input;
 	input.open("elections.txt");
 	while (input.good()) {
-		input >> election[count].id;
-		input >> election[count].name;
+		getline(input, id);
+		election[count].id = stoi(id);
+		getline(input, election[count].name);
 		getline(input, election[count].description);
-		for (int i = 0; i < 2; ++i)
-			input >> election[count].nominees[i];
-		for (int j = 0; j < 2; j++)
-			input >> election[count].votes[j];
-		for (int k = 0; k < 2; ++k)
-			input >> election[count].allowed_voters_code[k];
+		getline(input, noon);
+		election[count].no_ofnominees = stoi(noon);
+		getline(input, avc);
+		election[count].no_allowed_voter_code = stoi(avc);
+		election[count].no_allowed_voter_code = stoi(avc);
+		for (int i = 0; i < election[count].no_ofnominees; ++i)
+			getline(input, election[count].nominees[i]);
+
+		for (int h = 0; h < election[count].no_ofnominees; ++h)
+		{
+			getline(input, inn);
+			election[count].votes[h] = stoi(inn);
+		}
+
+		for (int j = 0; j < election[count].no_allowed_voter_code; ++j)
+		{
+			getline(input, in);
+			election[count].allowed_voters_code[j] = stoi(in);
+		}
+		election[count].end = false;
 		count++;
 	}
-	input.close();*/
+	input.close();
 }
 bool loginvoter()
 {
@@ -719,9 +726,14 @@ void createvote()
 	cout << " enter the election's name : \n";
 	cin >> election[i].name;
 	cout << " enter description :\n";
+
 	cin >> election[i].description;
+
 	cout << " How many nominees do you want?\n";
 	cin >> num;
+
+	election[i].no_ofnominees = num;
+
 	for (int x = 0; x < num; x++)
 
 	{
@@ -730,6 +742,7 @@ void createvote()
 	}
 	cout << "How many voter codes do you want?\n";
 	cin >> n;
+	election[i].no_allowed_voter_code = n;
 	for (int y = 0; y < n; y++) {
 		cout << "enter voter code " << y + 1 << " :";
 		cin >> election[i].allowed_voters_code[y];
@@ -1041,6 +1054,7 @@ void addnominee(int index)
 		i++;
 	}
 	election[index].nominees[i] = name;
+	election[index].no_ofnominees++;
 }
 void deletenominee(int index)
 {
@@ -1073,6 +1087,7 @@ void addvotercode(int index)
 		i++;
 	}
 	election[index].allowed_voters_code[i] = code;
+	election[index].no_allowed_voter_code++;
 	cout << "voter code added successfully";
 }
 void deletevotercode(int index)
@@ -1092,5 +1107,73 @@ void deletevotercode(int index)
 		election[index].allowed_voters_code[i] = election[index].allowed_voters_code[i + 1];
 		j++;
 	}
+	election[index].no_allowed_voter_code--;
 	cout << "voter code deleted successfully";
+}
+void updateadmins()
+{
+	int count = 0;
+	ofstream out;
+	out.open("admins.txt");
+	out.clear();
+	while (!election[count].name.empty()) {
+		out<< admin[count].id << endl;
+		out<< admin[count].adminaccount.username << endl;
+		out<< admin[count].adminaccount.pass << endl;
+		out<< admin[count].email << endl;
+		out<< admin[count].address << endl;
+		out<< admin[count].phone << endl;
+		for (int i = 0; i < 3; ++i)
+			out<< admin[count].election_ids[i]<<endl;
+		count++;
+	}
+	out.close();
+}
+void updatevoters()
+{
+	int count = 0;
+	fstream out;
+	out.open("voters.txt");
+	out.clear();
+	while (!election[count].name.empty()) {
+		out<< voter[count].id << endl;
+		out<< voter[count].voteraccount.username << endl;
+		out<< voter[count].voteraccount.pass << endl;
+		out<< voter[count].email << endl;
+		out<< voter[count].address << endl;
+		out<< voter[count].phone << endl;
+		out<< voter[count].code.code << endl;
+		count++;
+	}
+	out.close();
+}
+void updateelections()
+{
+	string id, noon, avc;
+	string in, inn;
+	int count = 0;
+	ofstream out;
+	out.open("elections.txt");
+	out.clear();
+	while (!election[count].name.empty()) {
+		out << election[count].id<<endl;
+		out << election[count].name << endl;
+		out << election[count].description << endl;
+		out << election[count].no_ofnominees << endl;
+		out << election[count].no_allowed_voter_code << endl;
+		for (int i = 0; i < election[count].no_ofnominees; i++)
+			out << election[count].nominees[i] << endl;
+		for (int i = 0; i < election[count].no_ofnominees; i++)
+			out << election[count].votes[i] << endl;
+		for (int i = 0; i < election[count].no_allowed_voter_code; i++)
+			out << election[count].allowed_voters_code[i]<<endl;
+
+		count++;
+	}
+	out.close();
+}
+void updatefiles() {
+	updateadmins();
+	updatevoters();
+	updateelections();
 }

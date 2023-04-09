@@ -1,9 +1,45 @@
-11
+24
 tesla
-thiselectionistochosethenextceooftesla
+this election is to chose the next ceo of tesla
+2
+2
 wahdan
 elonmusk
 10
 5
-333
-444
+11
+10
+23
+ahmed(1)
+testing file system
+2
+2
+ahmed
+malak
+5
+5
+11
+10
+24
+ahmed(2)
+testing also
+2
+3
+ahmed
+elon musk
+12
+10
+11
+10
+12
+24
+wahdan
+wahdantop
+2
+2
+aaa
+sss
+0
+1
+11
+10
