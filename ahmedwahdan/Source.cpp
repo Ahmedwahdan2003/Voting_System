@@ -2,7 +2,9 @@
 #include<fstream>
 #include<string>
 #include<vector>
+#include<map>
 #include<Windows.h>
+#include<algorithm>
 using namespace std;
 struct account {
 	string username;
@@ -716,13 +718,32 @@ void editphonenovoter()
 }
 void createvote()
 {
-	int i = 0;
-	int num, n;
+	bool flag = true;
+	int i = 0,j=0; 
+	int num, n,ans;
 	while (!election[i].name.empty()) {
 		i++;
 	}
-	cout << " enter Election ID:\n";
-	cin >> election[i].id;
+	while (true) {
+		cout << " enter Election ID:\n";
+		cin >> ans;
+		while (!election[j].name.empty()) {
+			if (election[j].id = ans) {
+				cout << "sorry that id is used try another one..\n\n";
+				flag = false;
+				break;
+			}
+				j++;
+		}
+		if (flag == false)
+			continue;
+		else
+		{
+			break;
+			election[i].id = ans;
+			
+		}
+	}
 	cout << " enter the election's name : \n";
 	cin >> election[i].name;
 	cout << " enter description :\n";
@@ -753,8 +774,17 @@ void createvote()
 void deletevote()
 {
 	system("CLS");
+	map<int, int>mp;
 	int ans;
 	bool flag = false;
+	int temp[10];
+	int cnt = 1;
+	while (election[cnt].id!=0) {
+		temp[cnt] = election[cnt].id;
+		cnt++;
+	}
+	sort(temp, temp + cnt);
+
 	for (int i = 0; i < 20; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (admin[adminindex].election_ids[j] == election[i].id)
@@ -770,10 +800,22 @@ void deletevote()
 		cout << "SORRY YOU MUST CREATE A VOTE FIRST TO DELETE IT..\n";
 	else {
 		cout << "\t\t\t choose the vote you want to delete\n";
-		for (int i = 0; i < 20; i++) {
-			for (int j = 0; j < 3; j++) {
-				if (admin[adminindex].election_ids[j] == election[i].id) {
-					cout << i + 1 << "- " << election[i].name << endl;
+		for (int i = 0,j=1; i < 3; ++i,j++) {
+			int low = 1, high = cnt - 1,mid;
+			while (low <= high) {
+				mid = (low + high) / 2;
+				if (temp[mid] == admin[adminindex].election_ids[i])
+				{
+					cout << "(" << j << ")  " << election[mid].name << "\n";
+					mp[j] = mid;
+					break;
+				}
+				else if (temp[mid] > admin[adminindex].election_ids[i])
+				{
+					high = mid - 1;
+				}
+				else {
+					low = mid + 1;
 				}
 
 			}
@@ -782,9 +824,9 @@ void deletevote()
 		cin >> ans;
 		if (ans == -1)
 			return;
-		ans--;
+		//mp[ans]--;
 		int j = 0;
-		for (int i = ans; !election[j].name.empty(); i++) {
+		for (int i = mp[ans]; !election[j].name.empty(); i++) {
 			election[i] = election[i + 1];
 			j++;
 		}
@@ -813,6 +855,14 @@ void endvote()
 {
 
 	system("CLS");
+	int temp[10];
+	int cnt = 1;
+	while (election[cnt].id != 0) {
+		temp[cnt] = election[cnt].id;
+		cnt++;
+	}
+	sort(temp, temp + cnt);
+	map<int, int>mp;
 	int ans;
 	bool boolean = false;
 	bool valid = true;
@@ -828,42 +878,79 @@ void endvote()
 	else {
 		cout << "choose the vote you want to end\n";
 
-		for (int i = 0; i < 20; i++) {
-			for (int k = 0; k < 3; k++) {
-				if (election[i].end == false && election[i].id == admin[adminindex].election_ids[k]) {
-					cout << i << "- " << election[i].name << endl;
+		for (int i = 0,j=1; i < 3; ++i,++j) {
+			int low = 1, high = cnt - 1, mid;
+			while (low <= high) {
+				mid = (low + high) / 2;
+				if (temp[mid] == admin[adminindex].election_ids[i]&&election[mid].end==false)
+				{
+					cout << "(" << j << ")  " << election[mid].name << "\n";
+					mp[j] = mid;
+					break;
 				}
+				else if (temp[mid] > admin[adminindex].election_ids[i])
+				{
+					high = mid - 1;
+				}
+				else {
+					low = mid + 1;
+				}
+
 			}
 		}
 		cout << "press -1 to back to the menu\n\n";
+		if (mp.empty())
+		{
+			cout << "no votes left to end\n";
+			system("pause");
+			return;
+		}
 		cin >> ans;
 		if (ans == -1)
 			return;
+		
 
-		election[ans].end = true;
+		election[mp[ans]].end = true;
 	}
-}
+}                                               
 void listofvotes()
 {
+	map<int, int>mp;
 	int ans;
 	system("cls");
 	cout << "Enter your Choice  or (-1) to go back to menu\n";
+	int temp[10];
+	int cnt = 1;
+	while (election[cnt].id != 0) {
+		temp[cnt] = election[cnt].id;
+		cnt++;
+	}
+	sort(temp, temp + cnt);
 
-
-	for (int i = 0; i < 20; i++)
-	{
-		for (int j = 0; j < 3; j++) {
-			if (voter[voterindex].code.code == election[i].allowed_voters_code[j])
+	for (int i = 0, j = 1; i < 3; ++i, ++j) {
+		int low = 1, high = cnt - 1, mid;
+		while (low <= high) {
+			mid = (low + high) / 2;
+			if (temp[mid] == admin[adminindex].election_ids[i])
 			{
-
-				cout << "- " << "(" << i << ")     " << election[i].name << "\n\n";
+				cout << "(" << j << ")  " << election[mid].name << "\n";
+				mp[j] = mid;
+				break;
 			}
+			else if (temp[mid] > admin[adminindex].election_ids[i])
+			{
+				high = mid - 1;
+			}
+			else {
+				low = mid + 1;
+			}
+
 		}
 	}
 	cin >> ans;
 	if (ans == -1)
 		return;
-	electionindex = ans;
+	electionindex = mp[ans];
 	if (election[electionindex].end == true)
 	{
 		cout << "this vote is finished";

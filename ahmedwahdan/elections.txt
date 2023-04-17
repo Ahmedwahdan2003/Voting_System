@@ -9,25 +9,14 @@ elonmusk
 5
 11
 10
-23
-ahmed(1)
-testing file system
-2
-2
-ahmed
-malak
-5
-5
-11
-10
-24
+22
 ahmed(2)
 testing also
 2
 3
 ahmed
 elon musk
-12
+13
 10
 11
 10
@@ -40,6 +29,6 @@ wahdantop
 aaa
 sss
 0
-1
+3
 11
 10
