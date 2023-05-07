@@ -91,7 +91,7 @@ void editvotingcode();
 void addvotingcode();
 void deletevotingcode();
 void winner(int electionindex);
-void leadingnominee();
+void leadingnominee(int& a);
 void vote();
 void editelectioninfo();
 void editelectionname(int index);
@@ -814,32 +814,40 @@ void createvote(int& a)
 	{
 		i++;
 	}
-	do {
-		int cnt = 0;
-		cout << "Enter election id\n";
+	if (no_of_elections == 0) {
+		cout << "Enter Election Id\n";
 		cin >> in;
-		for (cnt; cnt < 20; cnt++)
-		{
-			if (election[cnt].id != in)
+		election[i].id = in;
+	}
+	else {
+		do {
+			int cnt = 0;
+			cout << "Enter election id\n";
+			cin >> in;
+			for (cnt; cnt < 20; cnt++)
 			{
-				flag = true;
+				if (election[cnt].id != in)
+				{
+					flag = true;
+				}
+				else
+				{
+					flag = false;
+					break;
+
+				}
 			}
-			else
-			{
-				flag = false;
+			if (flag == false) {
+				cout << "Sorry that id is used try another one\n";
+				continue;
+			}
+			else {
+				election[i].id = in;
 				break;
 
-			}
 		}
-		if (flag == false) {
-			cout << "Sorry that id is used try another one\n";
-			continue;
-		}
-		else {
-			election[i].id = in;
-			break;
-		}
-	} while (flag == false);
+			} while (flag == false);
+	}
 
 	int index = -1;
 	for (int j = 0; j < 10; j++)       
@@ -872,37 +880,53 @@ void createvote(int& a)
 		cout << "enter name of nominee " << x + 1 << " :";
 		cin >> election[i].nominees[x];
 	}
-	do {
-		cout << "Enter election Code\n";
-		cin >> ans;
-		for (int l = 0; l < no_of_elections; l++) {
-			if (election[l].code != ans)
-			{
-				flag2 = true;
-			}
-			else
-			{
-				flag2 = false;
-				break;
 
+
+
+	if (no_of_elections == 0) {
+		int inn;
+		cout << "Enter Election Code\n";
+		cin >> inn;
+		election[i].code = inn;
+	}
+	else {
+		do {
+			cout << "Enter election Code\n";
+			cin >> ans;
+			for (int l = 0; l < no_of_elections; l++) {
+				if (election[l].code != ans)
+				{
+					flag2 = true;
+				}
+				else
+				{
+					flag2 = false;
+					break;
+
+				}
+			}
+			if (flag2 == false) {
+				cout << "Sorry that code is used try another one\n";
+				continue;
+			}
+			else {
+				election[i].code = ans;
+				break;
 			}
 		}
-		if (flag2 == false) {
-			cout << "Sorry that code is used try another one\n";
-			continue;
-		}
-		else {
-			election[i].code = ans;
-			break;
-		}
-	} while (flag2 == false);
+		 while (flag2 == false);
+	}
 	election[i].end = false;
 	no_of_elections++;
 }
 void deletevote(int& b, int& a)
 {
 
-
+	for (int i = 0; i < 7; i++) {
+		cout << admin[adminindex].election_ids[i] << " ";
+	}
+	cout << admin[adminindex].no_ofelectionids << "\n";
+	system("pause");
 	system("CLS");
 	int ans;
 	bool flag = false;
@@ -931,32 +955,44 @@ void deletevote(int& b, int& a)
 	if (ans == -1)
 		return;
 	else {
+		
+		//cout << mp[ans];
+		//cout << "\n" << election[0].id<<"\n";
+		//cout << temp;
+		//system("pause");
+
+		int indx = -1;
+		for (int i = 0; i < 10; i++)
+		{
+			if (admin[adminindex].election_ids[i] == election[mp[ans]].id)
+			{
+				indx = i;
+				break;
+			}
+		}
+		//cout << indx << "\n";
+		//system("pause");
+
+		for (int i = indx; admin[adminindex].election_ids[i] != 0; i++) {
+			admin[adminindex].election_ids[i] = admin[adminindex].election_ids[i + 1];
+		}
+
+
 		cout << "operation done successfully\n";
 		for (int i = mp[ans]; !election[i].name.empty(); i++)
 		{
 			election[i] = election[i + 1];
 
 		}
+		//cout << mp[ans];
+		//cout << '\n' << election[mp[ans]].id;
+		//cout << temp;
+		//cout << election[temp].id;
+		//cout << election[0].id;
+		//system("pause");
+		
+			//admin[adminindex].no_ofelectionids--;
 		no_of_elections--;
-		//admin[adminindex].no_ofelectionids--;
-		/*int index;
-		for (int i = 0; i < 10; i++) {
-			if (admin[adminindex].election_ids[i] == election[mp[ans]].id)
-			{
-				index = i;
-				break;
-			}
-		}
-		for (int i = index; admin[adminindex].election_ids[i+1]!=0; i++) {
-			admin[adminindex].election_ids[i] = admin[adminindex].election_ids[i + 1];
-		}
-
-
-		admin[adminindex].no_ofelectionids--;
-
-		cout << "\n\n" << admin[adminindex].no_ofelectionids << " " << admin[adminindex].election_ids[0]<<" " << admin[adminindex].election_ids[1]<<"  " << admin[adminindex].election_ids[2]<<" " << admin[adminindex].election_ids[3];
-		system("pause");
-		*/
 	}
 }
 void endvote(int& a, int& b)
@@ -982,17 +1018,25 @@ void endvote(int& a, int& b)
 	}
 	if (flag == false) {
 		cout << "No Votes To End\n\n";
-		Sleep(1100);
+		Sleep(1000);
 		return;
 	}
 	cout << "Enter Your Choice..  or(-1)to go back to menu\n";
 	cin >> ans;
+	int temp = mp[ans];
 	if (ans == -1)
 		return;
 	else {
-		cout << "operation done successfully\n";
-
-		election[mp[ans]].end = true;
+		for (int i = 0; i < election[temp].no_ofnominees; i++) {
+			cout <<"\nvotes for : "<< election[temp].nominees[i] << " is : " << election[temp].votes[i] << "\n";
+		}
+		char anss;
+		cout << "\n End The Vote?  (y/n)\n";
+		cin >> anss;
+		if (anss == 'y')
+			election[temp].end = true;
+		else
+			return;
 	}
 }
 
@@ -1057,6 +1101,15 @@ void listofvotes(int& b, int& c)
 			}
 		}
 	}
+	cout << "\n\n";
+	if (flag == true && flag2 == false)
+	{
+		cout << "No Ended Elections. All Elections Are Runing\n";
+	}
+	if (flag ==false && flag2 == true)
+	{
+		cout << "No Runing Elections. All Elections Ended\n";
+	}
 	if (flag == false && flag2 == false) {
 		cout << "You Dont Have Access To Any Elections\n\n";
 		Sleep(1100);
@@ -1095,7 +1148,7 @@ void listofvotes(int& b, int& c)
 				cout << "(" << i << ")" << election[electionindex].nominees[i] << endl;
 			voter[voterindex].code[indexofcode].voted = true;
 			vote();
-			leadingnominee();
+			leadingnominee(electionindex);
 		}
 	}
 
@@ -1116,7 +1169,7 @@ void vote()
 }
 
 
-void leadingnominee()
+void leadingnominee(int& a)
 {
 	int leadingn = 1;
 	int maxvotes = election[electionindex].votes[0];
