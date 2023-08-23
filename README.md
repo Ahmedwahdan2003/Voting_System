@@ -13,6 +13,10 @@
 
 The File-Based Voting System is a versatile and secure platform designed to facilitate voting processes within your organization. This system empowers companies to conduct various votes, surveys, and polls, allowing employees to participate and express their opinions on important matters.
 
+*****************************************************************
+it is my first project ever just implementing some basic c++ functions without oop or anything just using functional programming.
+*****************************************************************
+
 This README provides an overview of the system's features, usage guidelines, and information on licensing.
 
 ## Features
